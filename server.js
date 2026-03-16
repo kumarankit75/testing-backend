@@ -2,8 +2,8 @@ import express from "express";
 import pkg from "pg";
 import cors from "cors";
 import dotenv from "dotenv";
-
 dotenv.config();
+console.log("ENV:", process.env.DATABASE_URL);
 const { Pool } = pkg;
 
 const app = express();
@@ -24,6 +24,8 @@ app.get("/", (req, res) => {
 app.get("/notes", async (req, res) => {
   const result = await pool.query("SELECT * FROM notes ORDER BY created_at DESC");
   res.json(result.rows);
+  // res.send("Backend running");
+
 });
 
 // ADD NOTE
@@ -43,3 +45,37 @@ app.delete("/notes/:id", async (req, res) => {
 });
 
 app.listen(5000, () => console.log("Server running"));
+
+
+
+
+// import pkg from "pg";
+// const { Pool } = pkg;
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: { rejectUnauthorized: false },
+// });
+
+// pool.connect()
+//   .then(() => console.log("✅ DB Connected"))
+//   .catch(err => console.log("❌ DB Error:", err.message));
+
+export default pool;
+
+
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// import pkg from "pg";
+// const { Pool } = pkg;
+
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL
+// });
+
+// pool.connect()
+//   .then(() => console.log("✅ DB Connected"))
+//   .catch(err => console.log("❌ DB Error:", err.message));
+
+// export default pool;
